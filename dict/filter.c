@@ -18,8 +18,8 @@ int main(int argc, char **argv){
         fprintf(stderr, "\n\n Example: filter 7 7letterwords.txt words.txt words2.txt words3.txt\n\n");
     }
     else{    
-        FILE *fout = fopen(argv[2], "w");
         int wordLen = atoi(argv[1]);
+        FILE *fout = fopen(argv[2], "w");
         int i;
         for(i = 3; i < argc; i++){
             FILE *dict = fopen(argv[i], "r");
