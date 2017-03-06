@@ -1,9 +1,7 @@
 //  Created by Hasan Y Ahmed on 2/23/17.
 
-#include <stdio.h>
 #include <string.h>
 #include "utilfuncs.h"
-#include <pthread.h>
 
 void printErrorMessage(){
     fprintf(stderr, "\nusage: keywords [-options] phoneNumber\n");
@@ -12,7 +10,6 @@ void printErrorMessage(){
 }
 
 int main(int argc, const char *argv[]) {
-    pthread_setname_np("keywords");
     
     int phnum_index = 1;
     if (argc < 2){

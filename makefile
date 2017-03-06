@@ -1,2 +1,2 @@
 keywords:
-	gcc -o keywords keywords.c
+	gcc -o keywords utilfuncs.c keywords.c
