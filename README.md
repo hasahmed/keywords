@@ -4,7 +4,7 @@ This is just a fun little program that lets you enter a phone number, and it wri
 Useage:
 
 1. Compile using the makefile.
-2. Run by typing ./keywords 555-5555
+2. Run by typing ./keywords 5555555
 3. hack away!
 
 
