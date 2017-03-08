@@ -26,4 +26,4 @@ int search(char *dictFile, char *fileout);
 int internal_search(char *dictFile, char *fileout);
 void initStringArrayWith7LetterWordFile(char *file, StringArray *s);
 void freeStringArray(StringArray *s);
-
+void undash(char str[8]);

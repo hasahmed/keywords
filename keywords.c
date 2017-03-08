@@ -10,7 +10,6 @@ void printErrorMessage(){
 }
 
 int main(int argc, const char *argv[]) {
-    
     int phnum_index = 1;
     if (argc < 2){
         printErrorMessage();
@@ -57,7 +56,10 @@ int main(int argc, const char *argv[]) {
         }
         
         char inputNumber[8];
-        strcpy(inputNumber, argv[phnum_index]);
+        char inum_tmp[9];
+        strcpy(inum_tmp, argv[phnum_index]);
+        undash(inum_tmp);
+        strcpy(inputNumber, inum_tmp);
         
         //printf("fileout: %s, dict: %s, inputNumber: %s\n", fileout, dict, inputNumber);
         if(!isValidNumber(inputNumber)){

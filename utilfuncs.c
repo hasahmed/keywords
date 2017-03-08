@@ -4,6 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utilfuncs.h"
+
+void undash(char str[8]){
+    int i;
+    for(i = 3; i < 8; i++){
+        str[i] = str[i + 1];
+    }
+}
+
 int search(char *dictFile, char *fileout){
     FILE *enumerations, *dict, *out;
     enumerations = fopen("tmp.txt", "r");

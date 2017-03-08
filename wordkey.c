@@ -43,9 +43,7 @@ char letter_to_digit(char letter){
 
 int main(int argc, char *argv[]){
     int i;
-    for(i = 0; argv[1][i] != '\0'; i++){
+    for(i = 0; argv[1][i] != '\0'; i++)
         printf("%c", letter_to_digit(argv[1][i]));
-        if(i == 2) printf("%c", '-');
-    }
     puts("");
 }
