@@ -7,8 +7,10 @@
 
 void undash(char str[8]){
     int i;
-    for(i = 3; i < 8; i++){
-        str[i] = str[i + 1];
+    if(str[3] == '-'){
+        for(i = 3; i < 8; i++){
+            str[i] = str[i + 1];
+        }
     }
 }
 
