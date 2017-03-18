@@ -10,6 +10,7 @@ void printErrorMessage(){
 }
 
 int main(int argc, const char *argv[]) {
+    //input argument processessing
     int phnum_index = 1;
     if (argc < 2){
         printErrorMessage();
@@ -54,6 +55,7 @@ int main(int argc, const char *argv[]) {
                 }
             }
         }
+        //end input argument processessing
         
         char inputNumber[8];
         char inum_tmp[9];
@@ -61,7 +63,6 @@ int main(int argc, const char *argv[]) {
         undash(inum_tmp);
         strcpy(inputNumber, inum_tmp);
         
-        //printf("fileout: %s, dict: %s, inputNumber: %s\n", fileout, dict, inputNumber);
         if(!isValidNumber(inputNumber)){
             fprintf(stderr, "error: phone number must NOT contain any 0s or 1s\n");
             return 3;
@@ -72,6 +73,14 @@ int main(int argc, const char *argv[]) {
         enumerate("tmp.txt", indexes, keyArr, 7);
         freeKeyArr(keyArr, 7);
         internal_search(dict, fileout);
+     
     }
+/*
+    StringArray str;
+    internal_enumerate(&str, indexes, keyArr, 7);
+ */
+
+    
+    
     return 0;
 }

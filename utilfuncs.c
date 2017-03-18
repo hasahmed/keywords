@@ -13,6 +13,9 @@ void undash(char str[8]){
         }
     }
 }
+int factorial(int n){
+    return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
+}
 
 int search(char *dictFile, char *fileout){
     FILE *enumerations, *dict, *out;
@@ -135,6 +138,51 @@ void enumerate(char *fileName, int indexArr[], Key keyArr[], int arrLen){
                                     printKeyArrStrByIndexArr(f, indexArr, keyArr, arrLen);
                                 }
     fclose(f);
+}
+
+//dest_str length must be 1 more than its number of numbers.
+void copy_mem_by_keyArr(char *dest_str, int indexArr[], Key keyArr[], int arrLen){
+    int j;
+    for(j = 0; j < arrLen; j++)
+        dest_str[j] = keyArr[j].letters[indexArr[j]];
+    
+    dest_str[j + 1] = '\0';
+}
+
+void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int arrLen){
+    int numberLen = 7;
+    int ii;
+    int total_iterations = 1;
+    for(ii = 0; ii < arrLen; ii++){
+        total_iterations *= keyArr[ii].length;
+    }
+    str_arr->length = total_iterations;
+    
+    str_arr->array = (char**) malloc(total_iterations * sizeof(char*));
+
+    int i = 0, j,  k,  l,  m,  n,  o,  p;
+    for(j = 0; j < keyArr[0].length; j++)
+        for(k = 0; k < keyArr[1].length; k++)
+            for(l = 0; l < keyArr[2].length; l++)
+                for(m = 0; m < keyArr[3].length; m++)
+                    for(n = 0; n < keyArr[4].length; n++)
+                        for(o = 0; o < keyArr[5].length; o++)
+                            for(p = 0; p < keyArr[6].length; p++){
+                                i++;
+                                indexArr[0] = j;
+                                indexArr[1] = k;
+                                indexArr[2] = l;
+                                indexArr[3] = m;
+                                indexArr[4] = n;
+                                indexArr[5] = o;
+                                indexArr[6] = p;
+                                
+                                str_arr->array[i] = (char*) malloc((numberLen + 1) * sizeof(char*));
+                                copy_mem_by_keyArr(str_arr->array[i], indexArr, keyArr, arrLen);
+                                printf("%s\n", str_arr->array[i]);
+                            }
+    printf("actual iterations: %d\n", i);
+    printf("calculated iterations: %d\n", total_iterations);
 }
 
 //the stop condition for printing nubmers

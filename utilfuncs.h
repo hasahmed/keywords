@@ -27,3 +27,6 @@ int internal_search(char *dictFile, char *fileout);
 void initStringArrayWith7LetterWordFile(char *file, StringArray *s);
 void freeStringArray(StringArray *s);
 void undash(char str[8]);
+void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int arrLen);
+int factorial(int n);
+void copy_mem_by_keyArr(char *dest_str, int indexArr[], Key keyArr[], int arrLen);
