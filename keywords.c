@@ -67,18 +67,15 @@ int main(int argc, const char *argv[]) {
             fprintf(stderr, "error: phone number must NOT contain any 0s or 1s\n");
             return 3;
         }
+        StringArray enumerations;
         Key keyArr[7];
         initKeyArr(keyArr, inputNumber);
         int indexes[7] = {0};
-        enumerate("tmp.txt", indexes, keyArr, 7);
+        internal_enumerate(&enumerations, indexes, keyArr, 7);
         freeKeyArr(keyArr, 7);
-        internal_search(dict, fileout);
-     
+        internal_search(&enumerations, dict, fileout);
+        //freeStringArray(&enumerations);
     }
-/*
-    StringArray str;
-    internal_enumerate(&str, indexes, keyArr, 7);
- */
 
     
     

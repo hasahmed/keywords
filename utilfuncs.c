@@ -5,6 +5,14 @@
 #include <string.h>
 #include "utilfuncs.h"
 
+
+int inline chararrcmp(register char *arr1, register char *arr2, int cmp_up_to){
+    int i;
+    for(i = 0; i < cmp_up_to; i++)
+        if(arr1[i] != arr2[i]) return 0; //this line is causing an issue
+    return 1;
+}
+
 void undash(char str[8]){
     int i;
     if(str[3] == '-'){
@@ -59,6 +67,7 @@ void freeStringArray(StringArray *s){
 
 void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
     FILE *f = fopen(file, "r");
+    if(f != NULL){
     fseek(f, 0, SEEK_END);
     size_t fileLength = ftell(f) / 8;
     rewind(f);
@@ -71,31 +80,31 @@ void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
     fclose(f);
     s->length = fileLength;
     s->array = p;
+    }
+    else fprintf(stderr, "error opening file '%s'\n", file);
 }
 
 //does the same thing as search except instead of using files, uses internal arrays
-int internal_search(char *dictFile, char *fileout){
-    StringArray dict, phoneEnums;
-    FILE *fout;
-    initStringArrayWith7LetterWordFile("tmp.txt", &phoneEnums);
-    initStringArrayWith7LetterWordFile(dictFile, &dict);
-    fout = fopen(fileout, "w");
+int internal_search(StringArray *enums, char *dictFile, char *fileout){
+    StringArray dict;
+    //FILE *fout;
+    initStringArrayWith7LetterWordFile(dictFile, &dict); //read the file into an array of strings
+    //fout = fopen(fileout, "w");
     int i = 0;
     int j, k;
-    for(k = 0; k < phoneEnums.length; k++){
+    for(k = 0; k < enums->length; k++){
             for(j = 0; j < dict.length; j++){
                 i++;
-                if(strcmp(dict.array[j], phoneEnums.array[k]) == 0){
-                    fprintf(fout, "%s\n", dict.array[j]);
+                if(chararrcmp(dict.array[j], enums->array[k], 7)){
                     printf("word '%s' found at %d iterations\n", dict.array[j], i);
                     break;
                 }
             }
         }
     printf("Search ended after %d iterations\n", i);
-    fclose(fout);
+    //fclose(fout);
     freeStringArray(&dict);
-    freeStringArray(&phoneEnums);
+    
     return 0;
 }
 
@@ -168,7 +177,6 @@ void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int 
                     for(n = 0; n < keyArr[4].length; n++)
                         for(o = 0; o < keyArr[5].length; o++)
                             for(p = 0; p < keyArr[6].length; p++){
-                                i++;
                                 indexArr[0] = j;
                                 indexArr[1] = k;
                                 indexArr[2] = l;
@@ -177,12 +185,12 @@ void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int 
                                 indexArr[5] = o;
                                 indexArr[6] = p;
                                 
-                                str_arr->array[i] = (char*) malloc((numberLen + 1) * sizeof(char*));
+                                str_arr->array[i] = (char*) malloc((numberLen + 1) * sizeof(char));
                                 copy_mem_by_keyArr(str_arr->array[i], indexArr, keyArr, arrLen);
-                                printf("%s\n", str_arr->array[i]);
+                                i++;
                             }
-    printf("actual iterations: %d\n", i);
-    printf("calculated iterations: %d\n", total_iterations);
+    //printf("actual iterations: %d\n", i);
+    //printf("calculated iterations: %d\n", total_iterations);
 }
 
 //the stop condition for printing nubmers
