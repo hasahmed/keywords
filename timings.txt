@@ -8,7 +8,7 @@
 2.334201 seconds  |  256-6637  |  pre-multi/ no file output
 
 
-
+*multithreaded timings are no longer accurate
 2.646029 seconds  |  256-6637  |  multi thread
 2.659797 seconds  |  256-6637  |  multi thread
 2.664550 seconds  |  256-6637  |  multi thread
@@ -34,3 +34,6 @@
 2.672580 seconds  |  256-6637  |  multi thread
 2.685262 seconds  |  256-6637  |  multi thread
 2.687489 seconds  |  256-6637  |  multi thread
+14.370063 seconds  |  999-9999  |  multi thread
+14.352292 seconds  |  999-9999  |  multi thread
+2.679138 seconds  |  256-6637  |  multi thread

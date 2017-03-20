@@ -78,20 +78,15 @@ int main(int argc, const char *argv[]) {
         internal_enumerate(&enumerations, indexes, keyArr, 7);
         freeKeyArr(keyArr, 7);
         
-        
         //threads
-        pthread_t other_thread;
+        pthread_t other_thread = NULL;
         pthread_detach(other_thread);
         SearchArgs sArgs;
         sArgs.enums = &enumerations;
         sArgs.dict = &dict_arr;
         sArgs.fileout = fileout;
-        sArgs.search_start = (int)0;
-        sArgs.search_end = (int)sArgs.enums->length >> 1;
-        
-        clock_t start, end; //timing
-        float cpu_time_used; //timing
-        start = clock(); //timing
+        sArgs.search_start = 0;
+        sArgs.search_end = sArgs.enums->length >> 1;
 
         pthread_create(&other_thread, NULL, multi_search_caller, &sArgs);
         internal_search(
@@ -101,17 +96,7 @@ int main(int argc, const char *argv[]) {
                         &dict_arr,
                         fileout
                         );
-        
-        
-        //timings
-        end = clock(); //timing
-        cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC; //timing
-        FILE *timings = fopen("timings.txt", "a");
-        fprintf(timings, "%f seconds  |  %s  |  multi thread\n", cpu_time_used, argv[phnum_index]); // timing
-        printf("\n%f seconds  |  %s  |  multi thread\n", cpu_time_used, argv[phnum_index]); // timing
-        fclose(timings); // timing
-        //end timings
-        
+
         freeStringArray(&enumerations);
         freeStringArray(&dict_arr);
         pthread_exit(NULL);

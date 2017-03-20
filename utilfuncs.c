@@ -9,7 +9,7 @@
 int inline chararrcmp(register char *arr1, register char *arr2, int cmp_up_to){
     int i;
     for(i = 0; i < cmp_up_to; i++)
-        if(arr1[i] != arr2[i]) return 0; //this line is causing an issue
+        if(arr1[i] != arr2[i]) return 0;
     return 1;
 }
 
@@ -21,41 +21,7 @@ void undash(char str[8]){
         }
     }
 }
-int factorial(int n){
-    return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
-}
 
-int search(char *dictFile, char *fileout){
-    FILE *enumerations, *dict, *out;
-    enumerations = fopen("tmp.txt", "r");
-    dict = fopen(dictFile, "r");
-    out = fopen(fileout, "w");
-    char enumtmp[8];
-    char dicttmp[8];
-    int i = 0;
-    if(enumerations != NULL){
-        while(!feof(enumerations)){
-            fscanf(enumerations, "%s", enumtmp);
-            while(!feof(dict)){
-                i++;
-                fscanf(dict, "%s", dicttmp);
-                if(strcmp(dicttmp, enumtmp) == 0){
-                    fprintf(out, "%s\n", dicttmp);
-                    fseek(dict, 0, SEEK_SET);
-                    printf("word '%s' found at %d iterations\n", enumtmp, i);
-                    break;
-                }
-            }
-            fseek(dict, 0, SEEK_SET);
-        }
-    }
-    else fprintf(stderr, "Error opening one of %s, %s, or %s\n", "tmp.txt", dictFile, fileout);
-    printf("Search ended after %d iterations\n", i);
-    fclose(enumerations);
-    fclose(dict);
-    fclose(out);
-    return 0;
-}
 
 void freeStringArray(StringArray *s){
     int i;
@@ -69,7 +35,7 @@ void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
     FILE *f = fopen(file, "r");
     if(f != NULL){
     fseek(f, 0, SEEK_END);
-    size_t fileLength = ftell(f) / 8;
+    int fileLength = (int)ftell(f) / 8;
     rewind(f);
     char **p = (char**) malloc(sizeof(*p) * fileLength);
     int i;
@@ -112,11 +78,6 @@ void internal_search(
                 }
             }
         }
-    //printf("Search ended after %d iterations\n", i);
-    //fclose(fout);
-
-    
-
 }
 
 
@@ -135,30 +96,6 @@ int isValidNumber(char *phoneNumber){
     return 1;
 }
 
-//enumerate all possiblilities
-void enumerate(char *fileName, int indexArr[], Key keyArr[], int arrLen){
-    FILE *f;
-    f = fopen(fileName, "w");
-    int i = 0, j,  k,  l,  m,  n,  o,  p;
-        for(j = 0; j < keyArr[0].length; j++)
-            for(k = 0; k < keyArr[1].length; k++)
-                for(l = 0; l < keyArr[2].length; l++)
-                    for(m = 0; m < keyArr[3].length; m++)
-                        for(n = 0; n < keyArr[4].length; n++)
-                            for(o = 0; o < keyArr[5].length; o++)
-                                for(p = 0; p < keyArr[6].length; p++){
-                                    i++;
-                                    indexArr[0] = j;
-                                    indexArr[1] = k;
-                                    indexArr[2] = l;
-                                    indexArr[3] = m;
-                                    indexArr[4] = n;
-                                    indexArr[5] = o;
-                                    indexArr[6] = p;
-                                    printKeyArrStrByIndexArr(f, indexArr, keyArr, arrLen);
-                                }
-    fclose(f);
-}
 
 //dest_str length must be 1 more than its number of numbers.
 void copy_mem_by_keyArr(char *dest_str, int indexArr[], Key keyArr[], int arrLen){
@@ -200,19 +137,8 @@ void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int 
                                 copy_mem_by_keyArr(str_arr->array[i], indexArr, keyArr, arrLen);
                                 i++;
                             }
-    //printf("actual iterations: %d\n", i);
-    //printf("calculated iterations: %d\n", total_iterations);
 }
 
-//the stop condition for printing nubmers
-int isDone(int idxArr[], Key keyArr[], int arrLen){
-    int i;
-    for(i = 0; i < arrLen; i++){
-        if(idxArr[i] < keyArr[i].length -1)
-            return 0;
-    }
-    return 1;
-}
 
 void freeKey(Key *k){
     free(k->letters);
