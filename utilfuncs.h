@@ -13,6 +13,12 @@ struct stringArr{
 };
 typedef struct stringArr StringArray;
 
+struct eAndD_t { //struct containing pointers to 'enumerations' and 'dictionary' for multithreading use
+    StringArray *str_arr; // pointer to enumerations
+    char **dict; //pointer to the name of the dictionary
+};
+typedef struct eAndD_t EandD_t;
+
 char* letterToArray(char digit);
 void initKey(Key *k, char digit);
 void freeKey(Key *k);

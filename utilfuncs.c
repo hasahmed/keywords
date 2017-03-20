@@ -97,6 +97,7 @@ int internal_search(StringArray *enums, char *dictFile, char *fileout){
                 i++;
                 if(chararrcmp(dict.array[j], enums->array[k], 7)){
                     printf("word '%s' found at %d iterations\n", dict.array[j], i);
+                    //fprintf(fout, "%s\n", dict.array[j]);
                     break;
                 }
             }

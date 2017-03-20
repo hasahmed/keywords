@@ -1,0 +1,8 @@
+2.339718 seconds  |  256-6637  |  pre-multi
+2.336757 seconds  |  256-6637  |  pre-multi
+2.346320 seconds  |  256-6637  |  pre-multi/ no file output
+2.326324 seconds  |  256-6637  |  pre-multi/ no file output
+2.343590 seconds  |  256-6637  |  pre-multi/ no file output
+2.329773 seconds  |  256-6637  |  pre-multi/ no file output
+12.393837 seconds  |  999-9999  |  pre-multi/ no file output
+2.334201 seconds  |  256-6637  |  pre-multi/ no file output

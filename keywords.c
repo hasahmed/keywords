@@ -1,7 +1,9 @@
 //  Created by Hasan Y Ahmed on 2/23/17.
 
 #include <string.h>
+#include <pthread.h>
 #include "utilfuncs.h"
+#include <time.h>
 
 void printErrorMessage(){
     fprintf(stderr, "\nusage: keywords [-options] phoneNumber\n");
@@ -67,6 +69,11 @@ int main(int argc, const char *argv[]) {
             fprintf(stderr, "error: phone number must NOT contain any 0s or 1s\n");
             return 3;
         }
+        
+        clock_t start, end; //timing
+        float cpu_time_used; //timing
+        start = clock(); //timing
+        
         StringArray enumerations;
         Key keyArr[7];
         initKeyArr(keyArr, inputNumber);
@@ -74,7 +81,19 @@ int main(int argc, const char *argv[]) {
         internal_enumerate(&enumerations, indexes, keyArr, 7);
         freeKeyArr(keyArr, 7);
         internal_search(&enumerations, dict, fileout);
-        //freeStringArray(&enumerations);
+        
+        
+        //timings
+        end = clock(); //timing
+        cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC; //timing
+        FILE *timings = fopen("timings.txt", "a");
+        fprintf(timings, "%f seconds  |  %s  |  pre-multi/ no file output\n", cpu_time_used, argv[phnum_index]); // timing
+        printf("\n%f seconds  |  %s  |  pre-multi/ no file output\n", cpu_time_used, argv[phnum_index]); // timing
+        fclose(timings); // timing
+        //end timings
+        
+        freeStringArray(&enumerations);
+        pthread_exit(NULL);
     }
 
     
