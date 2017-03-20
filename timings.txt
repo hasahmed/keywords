@@ -7,33 +7,15 @@
 12.393837 seconds  |  999-9999  |  pre-multi/ no file output
 2.334201 seconds  |  256-6637  |  pre-multi/ no file output
 
+1.529 seconds | 256-6637 | 2 threads/ no file output
+7.385 seconds | 999-9999 | 2 threads/ no file output
+2.444 seconds | 738-7467 | 2 threads/ no file output
 
-*multithreaded timings are no longer accurate
-2.646029 seconds  |  256-6637  |  multi thread
-2.659797 seconds  |  256-6637  |  multi thread
-2.664550 seconds  |  256-6637  |  multi thread
-2.662376 seconds  |  256-6637  |  multi thread
-2.655778 seconds  |  256-6637  |  multi thread
-2.670156 seconds  |  256-6637  |  multi thread
-2.653244 seconds  |  256-6637  |  multi thread
-2.689900 seconds  |  256-6637  |  multi thread
-14.353467 seconds  |  999-9999  |  multi thread
-2.663243 seconds  |  256-6637  |  multi thread
-2.677363 seconds  |  256-6637  |  multi thread
-7.188581 seconds  |  256-6637  |  multi thread
-7.329500 seconds  |  256-6637  |  multi thread
-7.360259 seconds  |  256-6637  |  multi thread
-2.688855 seconds  |  256-6637  |  multi thread
-2.680123 seconds  |  256-6637  |  multi thread
-2.671858 seconds  |  256-6637  |  multi thread
-14.724987 seconds  |  999-9999  |  multi thread
-2.700016 seconds  |  256-6637  |  multi thread
-4.615020 seconds  |  349-8927  |  multi thread
-4.609045 seconds  |  349-8927  |  multi thread
-2.672386 seconds  |  256-6637  |  multi thread
-2.672580 seconds  |  256-6637  |  multi thread
-2.685262 seconds  |  256-6637  |  multi thread
-2.687489 seconds  |  256-6637  |  multi thread
-14.370063 seconds  |  999-9999  |  multi thread
-14.352292 seconds  |  999-9999  |  multi thread
-2.679138 seconds  |  256-6637  |  multi thread
+1.246 seconds | 256-6637 | 4 threads / no file output
+1.237 seconds | 256-6637 | 4 threads / no file output
+1.231 seconds | 256-6637 | 4 threads / no file output
+1.236 seconds | 256-6637 | 4 threads / no file output
+6.482 seconds | 999-9999 | 4 threads / no file output
+6.491 seconds | 999-9999 | 4 threads / no file output
+2.131 seconds | 738-7467 | 4 threads / no file output
+2.140 seconds | 738-7467 | 4 threads / no file output

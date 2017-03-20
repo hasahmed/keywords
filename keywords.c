@@ -11,6 +11,9 @@ void printErrorMessage(){
 }
 
 int main(int argc, const char *argv[]) {
+    
+    pthread_setname_np("keywords");
+    
     //input argument processessing
     int phnum_index = 1;
     if (argc < 2){
@@ -79,20 +82,30 @@ int main(int argc, const char *argv[]) {
         freeKeyArr(keyArr, 7);
         
         //threads
-        pthread_t other_thread = NULL;
-        pthread_detach(other_thread);
-        SearchArgs sArgs;
-        sArgs.enums = &enumerations;
-        sArgs.dict = &dict_arr;
-        sArgs.fileout = fileout;
-        sArgs.search_start = 0;
-        sArgs.search_end = sArgs.enums->length >> 1;
+        pthread_t threads[3] = {NULL};
+        for(int i = 0; i < 3; i++)
+            pthread_detach(threads[i]);
+        
+        SearchArgs sArgs[3];
+        for(int i = 0; i < 3; i++){
+            sArgs[i].enums = &enumerations;
+            sArgs[i].dict = &dict_arr;
+            sArgs[i].fileout = fileout;
+            if(i == 0){
+                sArgs[i].search_end = sArgs[i].enums->length / 4;
+                sArgs[i].search_start = 0;
+            }
+            else{
+                sArgs[i].search_start = sArgs[i - 1].search_end + 1;
+                sArgs[i].search_end = ((sArgs[i].enums->length / 4) * (i + 1)) + 1;
+            }
+            pthread_create(&threads[i], NULL, multi_search_caller, &sArgs[i]);
+        }
 
-        pthread_create(&other_thread, NULL, multi_search_caller, &sArgs);
         internal_search(
                         &enumerations,
-                        sArgs.search_end + 1,
-                        (int)enumerations.length,
+                        sArgs[2].search_end + 1,
+                        enumerations.length,
                         &dict_arr,
                         fileout
                         );
