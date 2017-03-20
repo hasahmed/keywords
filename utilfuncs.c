@@ -84,29 +84,39 @@ void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
     else fprintf(stderr, "error opening file '%s'\n", file);
 }
 
+void* multi_search_caller(void *enum_and_dict_obj){
+    SearchArgs *ead = enum_and_dict_obj;
+    
+    internal_search(ead->enums, ead->search_start, ead->search_end, ead->dict, ead->fileout);
+    
+    pthread_exit(NULL);
+}
+
 //does the same thing as search except instead of using files, uses internal arrays
-int internal_search(StringArray *enums, char *dictFile, char *fileout){
-    StringArray dict;
-    //FILE *fout;
-    initStringArrayWith7LetterWordFile(dictFile, &dict); //read the file into an array of strings
-    //fout = fopen(fileout, "w");
+void internal_search(
+                    StringArray *enums,
+                    int search_start,
+                    int search_end,
+                    StringArray *dict,
+                    char *fileout
+                    ){
     int i = 0;
     int j, k;
-    for(k = 0; k < enums->length; k++){
-            for(j = 0; j < dict.length; j++){
+    printf("search start %d\nsearch stop %d\n\n", search_start, search_end);
+    for(k = search_start; k < search_end; k++){
+            for(j = 0; j < dict->length; j++){
                 i++;
-                if(chararrcmp(dict.array[j], enums->array[k], 7)){
-                    printf("word '%s' found at %d iterations\n", dict.array[j], i);
-                    //fprintf(fout, "%s\n", dict.array[j]);
+                if(chararrcmp(dict->array[j], enums->array[k], 7)){
+                    printf("word '%s' found at %d iterations\n", dict->array[j], i);
                     break;
                 }
             }
         }
-    printf("Search ended after %d iterations\n", i);
+    //printf("Search ended after %d iterations\n", i);
     //fclose(fout);
-    freeStringArray(&dict);
+
     
-    return 0;
+
 }
 
 
