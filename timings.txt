@@ -6,3 +6,5 @@
 2.329773 seconds  |  256-6637  |  pre-multi/ no file output
 12.393837 seconds  |  999-9999  |  pre-multi/ no file output
 2.334201 seconds  |  256-6637  |  pre-multi/ no file output
+2.337344 seconds  |  256-6637  |  pre-multi/ no file output
+12.525264 seconds  |  999-9999  |  pre-multi/ no file output
