@@ -31,11 +31,11 @@ void freeStringArray(StringArray *s){
     free(s->array);
 }
 
-void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
-    FILE *f = fopen(file, "r");
+void init_StringArray(char *dict_file, StringArray *s, int wordLen){
+    FILE *f = fopen(dict_file, "r");
     if(f != NULL){
     fseek(f, 0, SEEK_END);
-    int fileLength = (int)ftell(f) / 8;
+    int fileLength = (int)ftell(f) / (sizeof(char) * wordLen);
     rewind(f);
     char **p = (char**) malloc(sizeof(*p) * fileLength);
     int i;
@@ -47,14 +47,15 @@ void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
     s->length = fileLength;
     s->array = p;
     }
-    else fprintf(stderr, "error opening file '%s'\n", file);
+    else fprintf(stderr, "error opening file '%s'\n", dict_file);
 }
 
 void* multi_search_caller(void *enum_and_dict_obj){
     SearchArgs *ead = enum_and_dict_obj;
     
-    internal_search(ead->enums, ead->search_start, ead->search_end, ead->dict, ead->fileout);
-    
+    internal_search(ead->enums, ead->search_start, ead->search_end, ead->dict, ead->fileout, 7);
+    internal_search(ead->enums, ead->search_start, ead->search_end, ead->three_dict, ead->fileout, 3);
+    internal_search(ead->enums, ead->search_start, ead->search_end, ead->four_dict, ead->fileout, 4);
     pthread_exit(NULL);
 }
 
@@ -64,7 +65,8 @@ void internal_search(
                     int search_start,
                     int search_end,
                     StringArray *dict,
-                    char *fileout
+                    char *fileout,
+                    int wordlen
                     ){
     int i = 0;
     int j, k;
@@ -72,7 +74,7 @@ void internal_search(
     for(k = search_start; k < search_end; k++){
             for(j = 0; j < dict->length; j++){
                 i++;
-                if(chararrcmp(dict->array[j], enums->array[k], 7)){
+                if(chararrcmp(dict->array[j], enums->array[k], wordlen)){
                     printf("word '%s' found at %d iterations\n", dict->array[j], i);
                     break;
                 }

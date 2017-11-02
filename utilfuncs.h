@@ -19,6 +19,8 @@ struct search_args_t { //struct containing pointers to 'enumerations' and 'dicti
     int search_start;
     int search_end;
     StringArray *dict; // pointer to dictionary StringArray struct
+    StringArray *three_dict;
+    StringArray *four_dict;
     char *fileout; // pointer to fileout name string
 };
 typedef struct search_args_t SearchArgs;
@@ -35,9 +37,10 @@ void internal_search(
                      int search_start,
                      int search_end,
                      StringArray *dict,
-                     char *fileout
+                     char *fileout,
+                     int wordlen
                      );
-void initStringArrayWith7LetterWordFile(char *file, StringArray *s);
+void init_StringArray(char *file, StringArray *s, int wordLen);
 void freeStringArray(StringArray *s);
 void undash(char str[8]);
 void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int arrLen);

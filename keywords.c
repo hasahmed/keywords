@@ -12,7 +12,8 @@ void printErrorMessage(){
 
 int main(int argc, const char *argv[]) {
     
-    pthread_setname_np("keywords");
+    
+    //pthread_setname_np("keywords");
     
     //input argument processessing
     int phnum_index = 1;
@@ -72,8 +73,16 @@ int main(int argc, const char *argv[]) {
             return 3;
         }
         
-        StringArray dict_arr;
-        initStringArrayWith7LetterWordFile(dict, &dict_arr);
+        StringArray dict_arr, three_dict, four_dict;
+        init_StringArray(dict, &dict_arr, 7); //scan in dict for whole phone number
+        
+        init_StringArray("dict/3letterdict.txt", &three_dict, 3);
+        init_StringArray("dict/4letterdict.txt", &four_dict, 4);
+        
+        printf("7 dict length %d\n", dict_arr.length);
+        printf("three dict length %d\n", three_dict.length);
+        printf("four dict length %d\n", four_dict.length);
+        
         StringArray enumerations;
         Key keyArr[7];
         initKeyArr(keyArr, inputNumber);
@@ -91,11 +100,14 @@ int main(int argc, const char *argv[]) {
             sArgs[i].enums = &enumerations;
             sArgs[i].dict = &dict_arr;
             sArgs[i].fileout = fileout;
+            sArgs[i].three_dict = &three_dict;
+            sArgs[i].four_dict = &four_dict;
             if(i == 0){
                 sArgs[i].search_end = sArgs[i].enums->length / 4;
                 sArgs[i].search_start = 0;
             }
             else{
+                //absolutely WRONG division of array searching for 3 & 4 length files
                 sArgs[i].search_start = sArgs[i - 1].search_end + 1;
                 sArgs[i].search_end = ((sArgs[i].enums->length / 4) * (i + 1)) + 1;
             }
@@ -107,11 +119,31 @@ int main(int argc, const char *argv[]) {
                         sArgs[2].search_end + 1,
                         enumerations.length,
                         &dict_arr,
-                        fileout
+                        fileout,
+                        7
+                        );
+        internal_search(
+                        &enumerations,
+                        sArgs[2].search_end + 1,
+                        enumerations.length,
+                        &three_dict,
+                        fileout,
+                        3
+                        );
+        internal_search(
+                        &enumerations,
+                        sArgs[2].search_end + 1,
+                        enumerations.length,
+                        &four_dict,
+                        fileout,
+                        4
                         );
 
         freeStringArray(&enumerations);
         freeStringArray(&dict_arr);
+        
+        freeStringArray(&three_dict);
+        freeStringArray(&four_dict);
         pthread_exit(NULL);
     }
 
