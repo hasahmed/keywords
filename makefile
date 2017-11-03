@@ -11,12 +11,12 @@ keywords: $(OBJS)
 wordkeys : wordkeys.o
 	$(CC) -o wordkeys wordkeys.c
 clean:
-	@rm -f keywords wordkeys *.txt *.o
+	@rm -f keywords wordkeys *.o
 	@echo "Cleaning"
 
 test : keywords
 	@echo "Testing keywords"
-	@time ./keywords $(num1)
+	@time ./keywords $(num2)
 
 wordkeys.o : wordkeys.c
 	$(CC) -c $(CFLAGS) wordkeys.c

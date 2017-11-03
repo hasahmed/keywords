@@ -1,9 +1,12 @@
 //  Created by Hasan Y Ahmed on 1/23/17.
 
 
+#include <unordered_set>
+#include <string>
 #include <stdlib.h>
 #include <string.h>
 #include "utilfuncs.hpp"
+
 
 
 int inline chararrcmp(register char *arr1, register char *arr2, int cmp_up_to){
@@ -20,9 +23,6 @@ void undash(char str[8]){
             str[i] = str[i + 1];
         }
     }
-}
-int factorial(int n){
-    return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
 }
 
 int search(char *dictFile, char *fileout){
@@ -68,43 +68,52 @@ void freeStringArray(StringArray *s){
 void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
     FILE *f = fopen(file, "r");
     if(f != NULL){
-    fseek(f, 0, SEEK_END);
-    size_t fileLength = ftell(f) / 8;
-    rewind(f);
-    char **p = (char**) malloc(sizeof(*p) * fileLength);
-    int i;
-    for(i = 0; i < fileLength; i++){
-        p[i] = (char*) malloc(sizeof(char) * 8);
-        fscanf(f, "%s", p[i]);
-    }
-    fclose(f);
-    s->length = fileLength;
-    s->array = p;
+        fseek(f, 0, SEEK_END);
+        size_t fileLength = ftell(f) / 8;
+        rewind(f);
+        char **p = (char**) malloc(sizeof(*p) * fileLength);
+        int i;
+        for(i = 0; i < fileLength; i++){
+            p[i] = (char*) malloc(sizeof(char) * 8);
+            fscanf(f, "%s", p[i]);
+        }
+        fclose(f);
+        s->length = fileLength;
+        s->array = p;
     }
     else fprintf(stderr, "error opening file '%s'\n", file);
 }
 
+std::unordered_set<std::string>* initHashSetWith7LetterWordFile(char *file) {
+    FILE *f = fopen(file, "r"); //open the file for reading
+    auto *word_set = new std::unordered_set<std::string>(); //creat a unordered set to store the strings in
+    int i = 0; //counter to check how many lines were read in
+    if (f != nullptr){ //check to see if the file opened properly
+        char buff[8]; //buffer for reading strings into
+        while(fscanf(f, "%s", buff) == 1){
+            i++;
+            word_set->insert(*(new std::string(buff))); //create new string, derefrence pointer and insert
+        }
+        fclose(f); //close the file that was opened
+    } else fprintf(stderr, "error opening file '%s'\n", file);
+    return word_set;
+
+}
+
 //does the same thing as search except instead of using files, uses internal arrays
 int internal_search(StringArray *enums, char *dictFile, char *fileout){
-    StringArray dict;
-    //FILE *fout;
-    initStringArrayWith7LetterWordFile(dictFile, &dict); //read the file into an array of strings
-    //fout = fopen(fileout, "w");
+
+    std::unordered_set<std::string> *word_set = initHashSetWith7LetterWordFile(dictFile);
     int i = 0;
-    int j, k;
+    int k;
     for(k = 0; k < enums->length; k++){
-            for(j = 0; j < dict.length; j++){
-                i++;
-                if(chararrcmp(dict.array[j], enums->array[k], 7)){
-                    printf("word '%s' found at %d iterations\n", dict.array[j], i);
-                    break;
-                }
-            }
+        i++;
+        if(word_set->count(enums->array[k])){
+            printf("word '%s' found at %d iterations\n", enums->array[k], i);
         }
+    }
     printf("Search ended after %d iterations\n", i);
-    //fclose(fout);
-    freeStringArray(&dict);
-    
+    delete word_set;
     return 0;
 }
 
@@ -129,23 +138,23 @@ void enumerate(char *fileName, int indexArr[], Key keyArr[], int arrLen){
     FILE *f;
     f = fopen(fileName, "w");
     int i = 0, j,  k,  l,  m,  n,  o,  p;
-        for(j = 0; j < keyArr[0].length; j++)
-            for(k = 0; k < keyArr[1].length; k++)
-                for(l = 0; l < keyArr[2].length; l++)
-                    for(m = 0; m < keyArr[3].length; m++)
-                        for(n = 0; n < keyArr[4].length; n++)
-                            for(o = 0; o < keyArr[5].length; o++)
-                                for(p = 0; p < keyArr[6].length; p++){
-                                    i++;
-                                    indexArr[0] = j;
-                                    indexArr[1] = k;
-                                    indexArr[2] = l;
-                                    indexArr[3] = m;
-                                    indexArr[4] = n;
-                                    indexArr[5] = o;
-                                    indexArr[6] = p;
-                                    printKeyArrStrByIndexArr(f, indexArr, keyArr, arrLen);
-                                }
+    for(j = 0; j < keyArr[0].length; j++)
+        for(k = 0; k < keyArr[1].length; k++)
+            for(l = 0; l < keyArr[2].length; l++)
+                for(m = 0; m < keyArr[3].length; m++)
+                    for(n = 0; n < keyArr[4].length; n++)
+                        for(o = 0; o < keyArr[5].length; o++)
+                            for(p = 0; p < keyArr[6].length; p++){
+                                i++;
+                                indexArr[0] = j;
+                                indexArr[1] = k;
+                                indexArr[2] = l;
+                                indexArr[3] = m;
+                                indexArr[4] = n;
+                                indexArr[5] = o;
+                                indexArr[6] = p;
+                                printKeyArrStrByIndexArr(f, indexArr, keyArr, arrLen);
+                            }
     fclose(f);
 }
 
@@ -154,7 +163,7 @@ void copy_mem_by_keyArr(char *dest_str, int indexArr[], Key keyArr[], int arrLen
     int j;
     for(j = 0; j < arrLen; j++)
         dest_str[j] = keyArr[j].letters[indexArr[j]];
-    
+
     dest_str[j + 1] = '\0';
 }
 
@@ -166,7 +175,7 @@ void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int 
         total_iterations *= keyArr[ii].length;
     }
     str_arr->length = total_iterations;
-    
+
     str_arr->array = (char**) malloc(total_iterations * sizeof(char*));
 
     int i = 0, j,  k,  l,  m,  n,  o,  p;
@@ -184,7 +193,7 @@ void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int 
                                 indexArr[4] = n;
                                 indexArr[5] = o;
                                 indexArr[6] = p;
-                                
+
                                 str_arr->array[i] = (char*) malloc((numberLen + 1) * sizeof(char));
                                 copy_mem_by_keyArr(str_arr->array[i], indexArr, keyArr, arrLen);
                                 i++;
