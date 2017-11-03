@@ -1,6 +1,6 @@
 CC= g++
 OBJS = keywords.o utilfuncs.o
-CFLAGS = -Wall
+CFLAGS = -std=c++14 -Wall
 
 num1 = 538-8823
 num2 = 999-9982
@@ -15,14 +15,14 @@ clean:
 	@echo "Cleaning"
 
 test : keywords
-	@echo "Testing keywords with worst case"
-	@time ./keywords $(num2)
+	@echo "Testing keywords"
+	@time ./keywords $(num1)
 
-wordkeys.o : 
-	$(CC) -c wordkeys.c
+wordkeys.o : wordkeys.c
+	$(CC) -c $(CFLAGS) wordkeys.c
 
-keywords.o :
-	$(CC) -c keywords.c
+keywords.o : keywords.cpp
+	$(CC) -c $(CFLAGS) keywords.cpp
 
-utilfuncs.o : 
-	$(CC) -c utilfuncs.c
+utilfuncs.o : utilfuncs.cpp utilfuncs.hpp
+	$(CC) -c $(CFLAGS) utilfuncs.cpp

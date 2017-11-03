@@ -1,12 +1,15 @@
 //  Created by Hasan Y Ahmed on 2/23/17.
 
 #include <string.h>
-#include "utilfuncs.h"
+#include "utilfuncs.hpp"
 
 void printErrorMessage(){
     fprintf(stderr, "\nusage: keywords [-options] phoneNumber\n");
     fprintf(stderr, " -o    specify output file\n -d    specify dictionary file\n");
-    fprintf(stderr, "\n **note** \nif using the -d and -o options together, the files\n must come in the same order as the options.\n By default the output file\n is matches.txt, and the dictionary file is dict/7letterdict.txt\n\n");
+    fprintf(stderr, "\n **note** \nif using the -d and -o options together, the files\n"
+            "must come in the same order as the options.\n"
+            "By default the output file\n"
+            "is matches.txt, and the dictionary file is dict/7letterdict.txt\n\n");
 }
 
 int main(int argc, const char *argv[]) {

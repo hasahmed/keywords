@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "utilfuncs.h"
+#include "utilfuncs.hpp"
 
 
 int inline chararrcmp(register char *arr1, register char *arr2, int cmp_up_to){
