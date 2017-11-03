@@ -1,4 +1,4 @@
-CC = gcc
+CC= g++
 OBJS = keywords.o utilfuncs.o
 CFLAGS = -Wall
 
