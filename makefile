@@ -1,10 +1,14 @@
-CC= g++
-OBJS = keywords.o utilfuncs.o
-CFLAGS = -std=c++14 -Wall
+CC= gcc
+#CFLAGS = -c -std=c11 -Wall -g
+#LDFLAGS =
 
 num1 = 538-8823
 num2 = 999-9982
 num3 = 267-7464
+
+
+
+OBJS = keywords.o utilfuncs.o stringset.o strll.o
 
 keywords: $(OBJS)
 	$(CC) -o keywords $(OBJS) $(CFLAGS)
@@ -27,11 +31,11 @@ test3: keywords
 	@echo "Testing keywords with $(num3)"
 	@time ./keywords $(num3)
 
-wordkeys.o : wordkeys.c
-	$(CC) -c $(CFLAGS) wordkeys.c
+#wordkeys.o : wordkeys.c
+	#$(CC) -c $(CFLAGS) wordkeys.c
 
-keywords.o : keywords.cpp
-	$(CC) -c $(CFLAGS) keywords.cpp
+#keywords.o : keywords.c
+	#$(CC) -c $(CFLAGS) keywords.c
 
-utilfuncs.o : utilfuncs.cpp utilfuncs.hpp
-	$(CC) -c $(CFLAGS) utilfuncs.cpp
+#utilfuncs.o : utilfuncs.c
+	#$(CC) -c $(CFLAGS) utilfuncs.c

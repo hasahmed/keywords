@@ -1,11 +1,12 @@
 //  Created by Hasan Y Ahmed on 1/23/17.
 
 
-#include <unordered_set>
-#include <string>
 #include <stdlib.h>
 #include <string.h>
-#include "utilfuncs.hpp"
+#include "utilfuncs.h"
+#include "stringset.h"
+
+#define INITIAL_STRSET_SIZE 10000
 
 
 
@@ -65,34 +66,34 @@ void freeStringArray(StringArray *s){
     free(s->array);
 }
 
-void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
-    FILE *f = fopen(file, "r");
-    if(f != NULL){
-        fseek(f, 0, SEEK_END);
-        size_t fileLength = ftell(f) / 8;
-        rewind(f);
-        char **p = (char**) malloc(sizeof(*p) * fileLength);
-        int i;
-        for(i = 0; i < fileLength; i++){
-            p[i] = (char*) malloc(sizeof(char) * 8);
-            fscanf(f, "%s", p[i]);
-        }
-        fclose(f);
-        s->length = fileLength;
-        s->array = p;
-    }
-    else fprintf(stderr, "error opening file '%s'\n", file);
-}
+// void initStringArrayWith7LetterWordFile(char *file, StringArray *s){
+//     FILE *f = fopen(file, "r");
+//     if(f){
+//         fseek(f, 0, SEEK_END);
+//         size_t fileLength = ftell(f) / 8;
+//         rewind(f);
+//         char **p = (char**) malloc(sizeof(*p) * fileLength);
+//         int i;
+//         for(i = 0; i < fileLength; i++){
+//             p[i] = (char*) malloc(sizeof(char) * 8);
+//             fscanf(f, "%s", p[i]);
+//         }
+//         fclose(f);
+//         s->length = fileLength;
+//         s->array = p;
+//     }
+//     else fprintf(stderr, "error opening file '%s'\n", file);
+// }
 
-std::unordered_set<std::string>* initHashSetWith7LetterWordFile(char *file) {
+stringset* initHashSetWith7LetterWordFile(char *file) {
     FILE *f = fopen(file, "r"); //open the file for reading
-    auto *word_set = new std::unordered_set<std::string>(); //creat a unordered set to store the strings in
+    stringset *word_set = stringset_new(INITIAL_STRSET_SIZE, STRSET_DEFAULT);
     int i = 0; //counter to check how many lines were read in
-    if (f != nullptr){ //check to see if the file opened properly
+    if (f){ //check to see if the file opened properly
         char buff[8]; //buffer for reading strings into
         while(fscanf(f, "%s", buff) == 1){
             i++;
-            word_set->insert(*(new std::string(buff))); //create new string, derefrence pointer and insert
+            stringset_add(&word_set, buff); //add the string we read in into the set
         }
         fclose(f); //close the file that was opened
     } else fprintf(stderr, "error opening file '%s'\n", file);
@@ -103,17 +104,17 @@ std::unordered_set<std::string>* initHashSetWith7LetterWordFile(char *file) {
 //does the same thing as search except instead of using files, uses internal arrays
 int internal_search(StringArray *enums, char *dictFile, char *fileout){
 
-    std::unordered_set<std::string> *word_set = initHashSetWith7LetterWordFile(dictFile);
+    stringset *word_set = initHashSetWith7LetterWordFile(dictFile);
     int i = 0;
     int k;
     for(k = 0; k < enums->length; k++){
         i++;
-        if(word_set->count(enums->array[k])){
+        if (stringset_contains(&word_set, enums->array[k])) {
             printf("word '%s' found at %d iterations\n", enums->array[k], i);
         }
     }
     printf("Search ended after %d iterations\n", i);
-    delete word_set;
+    stringset_free(&word_set);
     return 0;
 }
 

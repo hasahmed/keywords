@@ -1,7 +1,8 @@
 //  Created by Hasan Y Ahmed on 2/23/17.
 
 #include <string.h>
-#include "utilfuncs.hpp"
+#include "utilfuncs.h"
+
 
 void printErrorMessage(){
     fprintf(stderr, "\nusage: keywords [-options] phoneNumber\n");
@@ -73,11 +74,11 @@ int main(int argc, const char *argv[]) {
         Key keyArr[7]; //array of Keys
         initKeyArr(keyArr, inputNumber);
         int indexes[7] = {0};
-        internal_enumerate(&enumerations, indexes, keyArr, 7); //initialize enumerations array with all possible
-                                                                // enumerations for given number
+        internal_enumerate(&enumerations, indexes, keyArr, 7); //initialize enumerations array with all possible enumerations for given number
         freeKeyArr(keyArr, 7); //the key array is no longer needed hence free
         // </setup>
         internal_search(&enumerations, dict, fileout); //this is where the actual checking happens
+        freeStringArray(&enumerations);
     }
     return 0; //if here is reached everything went okay
 }
