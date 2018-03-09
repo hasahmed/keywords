@@ -200,6 +200,7 @@ void internal_enumerate(StringArray *str_arr, int indexArr[], Key keyArr[], int 
                             }
     //printf("actual iterations: %d\n", i);
     //printf("calculated iterations: %d\n", total_iterations);
+    //printf("str_arr->length: %lu\n", str_arr->length);
 }
 
 //the stop condition for printing nubmers
