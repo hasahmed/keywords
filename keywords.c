@@ -1,7 +1,23 @@
 //  Created by Hasan Y Ahmed on 2/23/17.
 
+#include <time.h>
+#include <stdlib.h>
 #include <string.h>
 #include "utilfuncs.h"
+
+int rand_lim(int limit) {
+/* return a random number between 0 and limit inclusive.
+ */
+
+    int divisor = RAND_MAX/(limit+1);
+    int retval;
+
+    do { 
+        retval = rand() / divisor;
+    } while (retval > limit);
+
+    return retval;
+}
 
 
 void printErrorMessage(){
@@ -44,14 +60,18 @@ int main(int argc, const char *argv[]) {
                 phnum_index = 5;
             } else { //if there there are neither options
                 if(argv[1][0] == '-'){ //if there is an option other than -d or -o
-                    printErrorMessage();
-                    return 2;
+                printf("Your options may be ignored\n");
+                strcpy(fileout, fileoutDefault);
+                strcpy(dict, dictDefault);
+                    // printErrorMessage();
+                    // return 2;
                 } else { //there are no options so take the default
                     strcpy(fileout, fileoutDefault);
                     strcpy(dict, dictDefault);
                 }
             }
         }
+
         /*
          * Need to make sure that there is a number given as input even when arguments are passed in. Right now it is un
          * checked
@@ -61,7 +81,18 @@ int main(int argc, const char *argv[]) {
         //<setup before actaul processesing>
         char inputNumber[8];
         char inum_tmp[9];
-        strcpy(inum_tmp, argv[phnum_index]); //copy the command line input phone number into inum_tmp
+        srand(time(NULL));
+        if (strcmp(argv[1], "--rand") == 0 || strcmp(argv[1], "-r") == 0) {
+            int i = 0;
+            for (i = 0; i < 7; i++) {
+                inum_tmp[i] = (rand_lim(7)) + 50; //random ascii character for numbers between 2 and 9. 52 because numbers start at 50. + 2 for ignoring 0 and 1
+                // printf("%c\n", (rand() % 7) + 50);
+            }
+            inum_tmp[8] = 0;
+            printf("random number: %s\n", inum_tmp);
+        } else {
+            strcpy(inum_tmp, argv[phnum_index]); //copy the command line input phone number into inum_tmp
+        }
         undash(inum_tmp); //remove the dash from the number
         strcpy(inputNumber, inum_tmp); //copy into inputNumer
 
