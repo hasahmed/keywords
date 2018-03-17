@@ -1,4 +1,5 @@
 cmake-build-debug/*
 *.o
 Session.vim
+*.code-workspace/*
 
